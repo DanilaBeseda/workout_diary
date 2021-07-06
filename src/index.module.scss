@@ -2,12 +2,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  width: 100vw;
-  background: linear-gradient(135deg, #c7444e 0%, #f3db6a 100%);
+  width: 100%;
+  background-color: #dcdcdc;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 * {
