@@ -1,0 +1,19 @@
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 12px;
+   background-color: #4a4a4a;
+   & h3 {
+      font-family: Lobster;
+      font-weight: normal;
+      font-size: 20px;
+      color: #fff;
+   }
+   & button {
+      font-size: 14px;
+      font-weight: bold;
+      background-color: transparent;
+      color: #fff;
+   }
+}

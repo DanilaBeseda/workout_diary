@@ -1,10 +1,13 @@
+import { Header } from './components/Header/Header'
+import { Calendar } from './components/Calendar/Calendar'
 
-import './App.module.scss';
+import classes from './App.module.scss'
 
 function App() {
   return (
-    <div>
-
+    <div className={classes.app}>
+      <Header />
+      <Calendar />
     </div>
   );
 }
