@@ -9,11 +9,15 @@ function App() {
   return (
     <div className={classes.app}>
       <Header />
-      <div className={classes.main}>
-        <Calendar />
-        <MuscleGroups />
+      <div className={classes.center}>
+        <div className={classes.main}>
+          <div className={classes.row}>
+            <Calendar />
+            <MuscleGroups />
+          </div>
+          <GymExercises />
+        </div>
       </div>
-      <GymExercises />
     </div>
   );
 }

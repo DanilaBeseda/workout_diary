@@ -1,22 +1,27 @@
 .musсleGroups {
-   width: 25%;
-   background-color: #2a2a2a;
+   flex: 1 1 25%;
+   background-color: #232323;
    margin: 10px 10px 10px 0;
    border-radius: 10px;
    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.7);
    display: flex;
    justify-content: center;
    align-items: center;
-   & button {
-      font-size: 12px;
-      font-weight: bold;
-      color: #fff;
-      background-color: #994ec5;
-      padding: 10px;
-      border: 1px solid #c5c5c5;
-      text-transform: uppercase;
-      &:hover {
-         background-color: #a83ee6;
+
+   & ul {
+      width: 90%;
+      & .btnConfirm {
+         width: 100%;
+         padding: 8px 0;
+         color: #fff;
+         font-size: 13px;
+         text-transform: uppercase;
+         background-color: #842020;
+         border-radius: 5px;
+         margin-top: 5px;
+         &:hover {
+            background-color: #257d2e;
+         }
       }
    }
 }

@@ -1,7 +1,7 @@
 .calendar {
-   flex: 1;
+   flex: 1 1 75%;
    margin: 10px;
-   background: linear-gradient(135deg, #b50e0e 0%, #0d0ba5 100%);
+   background-color: #232323;
    border-radius: 10px;
    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.7);
    & .selects {
@@ -40,7 +40,7 @@
                border: 1px solid #41b0e0;
             }
             &.today {
-               background-color: #41b0e0;
+               background: linear-gradient(157deg, #373ca9 0%, #38b9b3 100%);
             }
          }
       }
