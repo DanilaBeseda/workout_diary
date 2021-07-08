@@ -2,7 +2,9 @@ import {
    PREV_MONTH,
    NEXT_MONTH,
    SELECT_YEAR_AND_MONTH,
-   SELECT_ACTIVE_DATE
+   SELECT_ACTIVE_DATE,
+   PREV_YEAR,
+   NEXT_YEAR
 } from "../constants/actionTypes"
 
 const initialState = {
@@ -19,6 +21,14 @@ export const calendar = (state = initialState, action) => {
       case NEXT_MONTH:
          return {
             ...state, date: new Date(action.date.getFullYear(), action.date.getMonth() + 1)
+         }
+      case PREV_YEAR:
+         return {
+            ...state, date: new Date(action.date.getFullYear() - 1, action.date.getMonth())
+         }
+      case NEXT_YEAR:
+         return {
+            ...state, date: new Date(action.date.getFullYear() + 1, action.date.getMonth())
          }
       case SELECT_YEAR_AND_MONTH:
          return {

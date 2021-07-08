@@ -10,7 +10,7 @@
       width: 100%;
       padding: 10px 5px;
       user-select: none;
-      & button {
+      & .btnMonth {
          color: #fff;
          font-size: 30px;
          background-color: transparent;
@@ -20,6 +20,20 @@
          cursor: pointer;
          background-color: transparent;
          font-size: 20px;
+      }
+      & .year {
+         display: flex;
+         align-items: center;
+         & p {
+            font-size: 20px;
+            margin: 0 12px;
+            color: #fff;
+         }
+         & .btnYear {
+            color: #fff;
+            font-size: 18px;
+            background-color: transparent;
+         }
       }
    }
    & table {

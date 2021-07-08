@@ -2,7 +2,9 @@ import {
    PREV_MONTH,
    NEXT_MONTH,
    SELECT_YEAR_AND_MONTH,
-   SELECT_ACTIVE_DATE
+   SELECT_ACTIVE_DATE,
+   NEXT_YEAR,
+   PREV_YEAR
 } from '../constants/actionTypes'
 
 export const prevMonth = (date) => ({
@@ -12,6 +14,16 @@ export const prevMonth = (date) => ({
 
 export const nextMonth = (date) => ({
    type: NEXT_MONTH,
+   date
+})
+
+export const prevYear = (date) => ({
+   type: PREV_YEAR,
+   date
+})
+
+export const nextYear = (date) => ({
+   type: NEXT_YEAR,
    date
 })
 
