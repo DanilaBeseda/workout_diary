@@ -20,6 +20,11 @@
          cursor: pointer;
          background-color: transparent;
          font-size: 20px;
+         & option {
+            background-color: #e2e2e2;
+            color: #232323;
+            font-size: 14px;
+         }
       }
       & .year {
          display: flex;
