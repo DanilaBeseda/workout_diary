@@ -8,8 +8,8 @@ export const GymExercises = () => {
       {
          exerciseName: '',
          sets: [
-            { weight: 0.0 },
-            { reps: 0 }
+            { weight: 0.0, reps: 0 },
+
          ],
          comment: ''
       },
