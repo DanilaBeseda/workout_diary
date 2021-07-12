@@ -7,9 +7,11 @@ import {
    NEXT_YEAR
 } from "../constants/actionTypes"
 
+const newDate = new Date()
+
 const initialState = {
-   date: new Date(),
-   selectedDate: new Date()
+   date: newDate,
+   selectedDate: new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
 }
 
 export const calendar = (state = initialState, action) => {

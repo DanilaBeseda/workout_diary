@@ -11,7 +11,7 @@ export const Calendar = () => {
    const weekDayNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 
    const dispatch = useDispatch()
-   const { date, selectedDate } = useSelector(state => state.calendar)
+   const { date, selectedDate } = useSelector(({ calendar }) => calendar)
    const mountData = getMonthData(date.getFullYear(), date.getMonth())
    const monthRef = useRef(null)
 

@@ -9,7 +9,7 @@ import classes from './App.module.scss'
 function App() {
   return (
     <div className={classes.wrapper}>
-      <Auth />
+      {/* <Auth /> */}
       <div className={classes.app}>
         <Header />
         <div className={classes.center}>

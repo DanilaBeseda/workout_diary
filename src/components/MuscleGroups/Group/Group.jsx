@@ -3,8 +3,8 @@ import { CSSTransition } from 'react-transition-group'
 
 import classes from './Group.module.scss'
 
-export const Group = ({ toggle, group, index }) => {
-   const [checked, setChecked] = useState(false)
+export const Group = ({ toggle, group }) => {
+   const [checked, setChecked] = useState(group.checked)
 
    function checkboxHandler(e) {
       setChecked(e.target.checked)
@@ -12,7 +12,7 @@ export const Group = ({ toggle, group, index }) => {
 
    return (
       <CSSTransition
-         in={toggle}
+         in={checked || toggle}
          timeout={400}
          classNames={
             !checked ? { ...classes } : {}
@@ -21,8 +21,14 @@ export const Group = ({ toggle, group, index }) => {
          mountOnEnter
       >
          <li className={classes.group}>
-            <input id={index} type='checkbox' onChange={checkboxHandler} disabled={!toggle} />
-            <label htmlFor={index}>{group}</label>
+            <input
+               id={group.id}
+               type='checkbox'
+               onChange={checkboxHandler}
+               disabled={!toggle}
+               checked={checked}
+            />
+            <label htmlFor={group.id}>{group.muscleGroupName}</label>
          </li>
       </ CSSTransition>
    )
