@@ -1,33 +1,44 @@
 import {
-   CHANGE_CHECKED,
    BIND_DATA
 } from '../constants/actionTypes'
 
 import muscleGroups from '../../assets/muscleGroups'
-import axios from 'axios'
+import firebase from 'firebase/app'
+import 'firebase/database'
 
-export const changeChecked = (id, checked) => ({
-   type: CHANGE_CHECKED,
-   payload: { 'id': id, 'checked': checked }
-})
-
-export const bindDataToState = (data, key = null) => ({
+export const bindDataToState = (data) => ({
    type: BIND_DATA,
-   payload: { 'data': data, 'key': key }
+   payload: data
 })
 
 export const getData = (selectedDate) => (
    dispatch => {
-      axios.get(`https://workout-diary-f4b5d-default-rtdb.europe-west1.firebasedatabase.app/date/${Date.parse(selectedDate)}/muscleGroups.json`).then(({ data }) => {
-         if (!data) {
-            dispatch(bindDataToState(muscleGroups))
+      const database = firebase.database
+
+      database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("muscleGroups").get().then((res) => {
+         if (res.exists()) {
+            dispatch(bindDataToState(res.val()))
          } else {
-            const key = Object.keys(data)[0]
-            dispatch(bindDataToState(data[`${key}`], key))
+            dispatch(bindDataToState(muscleGroups))
          }
       }).catch(e => {
          alert('Не удалось получить данные с сервера')
          console.error(e)
       })
+   }
+)
+
+export const setData = (data, selectedDate) => (
+   async () => {
+      const database = firebase.database
+
+      if (data.find(item => item.checked === true)) {
+         try {
+            await database().ref(`date/${Date.parse(selectedDate)}/muscleGroups`).set(data)
+         } catch (e) {
+            alert('Не удалось отправить данные на сервер')
+            console.error(e)
+         }
+      }
    }
 )
