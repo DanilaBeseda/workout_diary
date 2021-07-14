@@ -26,9 +26,11 @@ export const MuscleGroups = () => {
    return (
       <div className={classes.musсleGroups}>
          <ul>
-            {groups.map(group => (
-               <Group key={group.id} toggle={toggle} group={group} />
-            ))}
+            {groups.map(group => {
+               return (
+                  <Group key={group.id} toggle={toggle} group={group} />
+               )
+            })}
             <button className={classes.btnConfirm} onClick={toggleHandler}>{toggle ? 'Подтвердить' : 'Выбрать мышечную группу'}</button>
          </ul>
       </div>
