@@ -1,13 +1,13 @@
 import {
-   BIND_DATA,
+   BIND_GROUPS_DATA,
    CHANGE_CHACKED
 } from '../constants/actionTypes'
 
 import firebase from 'firebase/app'
 import 'firebase/database'
 
-export const bindDataToState = (data) => ({
-   type: BIND_DATA,
+export const bindGroupsDataToState = (data) => ({
+   type: BIND_GROUPS_DATA,
    payload: data
 })
 
@@ -16,26 +16,26 @@ export const changeChacked = (group) => ({
    payload: group
 })
 
-export const getData = (selectedDate) => (
+export const getGroupsData = (selectedDate) => (
    dispatch => {
       const database = firebase.database
 
       database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("muscleGroups").get().then((res) => {
          if (res.exists()) {
-            dispatch(bindDataToState(res.val()))
+            dispatch(bindGroupsDataToState(res.val()))
          } else {
             database().ref().child("muscleGroupsDefault").get().then(res => {
-               dispatch(bindDataToState(res.val()))
+               dispatch(bindGroupsDataToState(res.val()))
             })
          }
       }).catch(e => {
-         alert('Не удалось получить данные с сервера')
+         alert('Произошла ошибка при получении данных')
          console.error(e)
       })
    }
 )
 
-export const setData = (data, selectedDate) => (
+export const setGroupsData = (data, selectedDate) => (
    async () => {
       const database = firebase.database
       const ref = `date/${Date.parse(selectedDate)}/muscleGroups`
@@ -45,12 +45,12 @@ export const setData = (data, selectedDate) => (
             await database().ref(ref).set(data)
          } else {
             const res = await database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("gymExercises").get()
-            if (!res.val()) {
+            if (!res.exists()) {
                await database().ref(ref).set(null)
             }
          }
       } catch (e) {
-         alert('Не удалось отправить данные на сервер')
+         alert('Что-то пошло не так')
          console.error(e)
       }
    }

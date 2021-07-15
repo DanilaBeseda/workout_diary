@@ -1,5 +1,5 @@
 import {
-   BIND_DATA,
+   BIND_GROUPS_DATA,
    CHANGE_CHACKED
 } from '../constants/actionTypes'
 
@@ -9,7 +9,7 @@ const initialState = {
 
 export const musсleGroups = (state = initialState, action) => {
    switch (action.type) {
-      case BIND_DATA:
+      case BIND_GROUPS_DATA:
          return {
             ...state, groups: action.payload
          }

@@ -14,7 +14,7 @@
          }
       }
    }
-   & .exerciseName {
+   & .exerciseNameInput {
       width: 300px;
       background-color: transparent;
       border: 1px solid #969696;
@@ -25,6 +25,13 @@
       font-weight: bold;
       padding: 2px 5px;
    }
+   & .exerciseNameDiv {
+      color: #cb0a0a;
+      margin-bottom: 5px;
+      font-size: 18px;
+      font-weight: bold;
+   }
+
    & .exerciseList {
       display: flex;
       margin-bottom: 5px;
@@ -36,13 +43,18 @@
          border-radius: 10px;
       }
    }
-   & .comment {
+   & .commentInput {
       width: 400px;
       background-color: transparent;
       border: 1px solid #969696;
       color: #6f6f6f;
       border-radius: 5px;
       padding: 2px 5px;
+      font-size: 13px;
+   }
+   & .commentDiv {
+      color: #6f6f6f;
+      font-size: 13px;
    }
    & .center {
       display: flex;

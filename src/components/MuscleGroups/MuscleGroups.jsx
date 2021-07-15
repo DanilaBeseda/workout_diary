@@ -2,24 +2,24 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { Group } from './Group/Group'
-import { getData, setData } from '../../store/actions/muscleGroups'
+import { getGroupsData, setGroupsData } from '../../store/actions/muscleGroups'
 
 import classes from './MuscleGroups.module.scss'
 
 export const MuscleGroups = () => {
    const [toggle, setToggle] = useState(false)
-   const selectedDate = useSelector(({ calendar }) => calendar.selectedDate)
-   const groups = useSelector(({ musсleGroups }) => musсleGroups.groups)
+   const { selectedDate } = useSelector(({ calendar }) => calendar)
+   const { groups } = useSelector(({ musсleGroups }) => musсleGroups)
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getData(selectedDate))
+      dispatch(getGroupsData(selectedDate))
       setToggle(false)
    }, [selectedDate, dispatch])
 
    function toggleHandler() {
       if (!toggle) { setToggle(true) } else {
-         dispatch(setData(groups, selectedDate))
+         dispatch(setGroupsData(groups, selectedDate))
          setToggle(false)
       }
    }
