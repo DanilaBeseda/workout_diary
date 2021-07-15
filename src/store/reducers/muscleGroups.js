@@ -10,7 +10,6 @@ const initialState = {
 export const musсleGroups = (state = initialState, action) => {
    switch (action.type) {
       case BIND_DATA:
-         { console.log(action.payload) }
          return {
             ...state, groups: action.payload
          }

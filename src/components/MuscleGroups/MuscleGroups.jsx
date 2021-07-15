@@ -14,6 +14,7 @@ export const MuscleGroups = () => {
 
    useEffect(() => {
       dispatch(getData(selectedDate))
+      setToggle(false)
    }, [selectedDate, dispatch])
 
    function toggleHandler() {
