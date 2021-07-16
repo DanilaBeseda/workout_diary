@@ -1,7 +1,9 @@
 import {
    BIND_EXERCISES_DATA,
    ADD_EXERCISE,
-   DELETE_EXERCISE
+   DELETE_EXERCISE,
+   ADD_SET,
+   DELETE_SET
 } from '../constants/actionTypes'
 
 import firebase from 'firebase/app'
@@ -62,10 +64,10 @@ export const setExerciseData = (exercise, name, comment, selectedDate) => (
 
       try {
          await database().ref(`date/${Date.parse(selectedDate)}/gymExercises/${exercise.id - 1}`).set({
-            'comment': comment,
-            'id': exercise.id,
-            'name': name,
-            'sets': exercise.sets.length ? exercise.sets : [{ weight: 0, reps: 0 }]
+            comment: comment,
+            id: exercise.id,
+            name: name,
+            sets: exercise.sets.length ? exercise.sets : [{ weight: 0, reps: 0, id: 0 }]
          })
 
          dispatch(getExercisesData(selectedDate))
@@ -75,3 +77,13 @@ export const setExerciseData = (exercise, name, comment, selectedDate) => (
       }
    }
 )
+
+export const addSet = (set, id) => ({
+   type: ADD_SET,
+   payload: { set, id }
+})
+
+export const deleteSet = (setId, exerciseId) => ({
+   type: DELETE_SET,
+   payload: { setId, exerciseId }
+})

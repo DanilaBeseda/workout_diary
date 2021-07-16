@@ -38,10 +38,25 @@
       margin-bottom: 5px;
       & .exerciseItem {
          margin-right: 20px;
-         padding: 10px 20px;
+         padding: 10px 4px 10px 20px;
          color: #fff;
          background: linear-gradient(157deg, #373ca9 0%, #38b9b3 100%);
          border-radius: 10px;
+         & .deleteBtn {
+            background-color: transparent;
+            margin: 0 4px;
+            opacity: 0;
+         }
+         &:hover {
+            & .deleteBtn {
+               opacity: 0.5;
+               &:hover {
+                  opacity: 1;
+                  transform: scale(1.2);
+                  transition: transform 0.3s ease-out;
+               }
+            }
+         }
       }
    }
    & .commentInput {

@@ -1,7 +1,9 @@
 import {
    BIND_EXERCISES_DATA,
    ADD_EXERCISE,
-   DELETE_EXERCISE
+   DELETE_EXERCISE,
+   ADD_SET,
+   DELETE_SET
 } from '../constants/actionTypes'
 
 const initialState = {
@@ -26,7 +28,6 @@ export const gymExercises = (state = initialState, action) => {
             ...state, exercises: data
          }
       }
-
       case ADD_EXERCISE: {
          const cloneExercises = state.exercises
          const id = cloneExercises.length + 1
@@ -43,11 +44,37 @@ export const gymExercises = (state = initialState, action) => {
             ...state, exercises: cloneExercises
          }
       }
-
       case DELETE_EXERCISE: {
          const cloneExercises = state.exercises.filter(exercise => (
             exercise.id !== action.payload
          ))
+
+         return {
+            ...state, exercises: cloneExercises
+         }
+      }
+      case ADD_SET: {
+         const cloneExercises = state.exercises.map(exercise => {
+            if (exercise.id === action.payload.id) {
+               exercise.sets.push(action.payload.set)
+            }
+            return exercise
+         })
+
+         return {
+            ...state, exercises: cloneExercises
+         }
+      }
+      case DELETE_SET: {
+         const cloneExercises = state.exercises.map(exercise => {
+            if (exercise.id === action.payload.exerciseId) {
+               const sets = exercise.sets.filter(set => (
+                  set.id !== action.payload.setId
+               ))
+               exercise.sets = sets
+            }
+            return exercise
+         })
 
          return {
             ...state, exercises: cloneExercises
