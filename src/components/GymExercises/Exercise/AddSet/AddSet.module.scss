@@ -1,3 +1,79 @@
 .addBtn {
    background-color: transparent;
+   opacity: 0.4;
+   &:hover {
+      opacity: 1;
+      transform: scale(1.2);
+      transition: transform 0.3s ease-out;
+   }
+}
+.popup {
+   width: 150px;
+   height: 120px;
+   background-color: #232323;
+   border-radius: 10px;
+   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.7);
+
+   position: absolute;
+   bottom: 0;
+   left: 30px;
+
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   & .weight {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+   }
+   & .reps {
+      display: flex;
+      align-items: center;
+   }
+
+   & .minus {
+      margin-right: 8px;
+   }
+
+   & button {
+      background-color: transparent;
+      & svg {
+         opacity: 0.7;
+      }
+      & svg:hover {
+         opacity: 1;
+      }
+   }
+   & input {
+      margin-right: 8px;
+      width: 70px;
+      height: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      color: #e2e2e2;
+      text-transform: uppercase;
+      background-color: transparent;
+      border: 1px solid #535353;
+      border-radius: 5px;
+      padding: 2px 5px;
+   }
+   & .confirm,
+   & .cancel {
+      padding: 5px 3px;
+      color: #fff;
+      font-size: 13px;
+      text-transform: uppercase;
+      background-color: #842020;
+      border-radius: 5px;
+      margin-top: 5px;
+      &:hover {
+         background-color: #257d2e;
+      }
+   }
+
+   & .confirm {
+      margin-right: 10px;
+   }
 }

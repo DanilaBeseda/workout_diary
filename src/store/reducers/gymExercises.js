@@ -15,11 +15,13 @@ export const gymExercises = (state = initialState, action) => {
 
          if (data) {
             data.map(exercise => {
+               if (exercise.sets[0].reps === 0) {
+                  exercise.sets = []
+               }
                exercise.isEdit = false
                return exercise
             })
          }
-
          return {
             ...state, exercises: data
          }

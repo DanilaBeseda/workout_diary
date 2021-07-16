@@ -33,6 +33,7 @@
    }
 
    & .exerciseList {
+      position: relative;
       display: flex;
       margin-bottom: 5px;
       & .exerciseItem {
@@ -65,6 +66,8 @@
          opacity: 0;
          &:hover {
             opacity: 1;
+            transform: scale(1.2);
+            transition: transform 0.3s ease-out;
          }
       }
    }

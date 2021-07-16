@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { AddSet } from './AddSet/AddSet'
+import { DeleteSet } from './DeleteSet/DeleteSet'
 import { deleteExercise, setExerciseData } from '../../../store/actions/gymExercises'
 
 import classes from './Exercise.module.scss'
@@ -51,7 +52,9 @@ export const Exercise = ({ exercise, selectedDate }) => {
 
             <ul className={classes.exerciseList}>
                {exercise.sets.map((set, index) => (
-                  <li key={index} className={classes.exerciseItem}>{`${set.weight}кг x ${set.reps}`}</li>
+                  <li key={index} className={classes.exerciseItem}>{`${set.weight}кг x ${set.reps}`}
+                     <DeleteSet />
+                  </li>
                ))}
                {isEdit && <AddSet />}
             </ul>

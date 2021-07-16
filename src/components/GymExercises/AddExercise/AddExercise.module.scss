@@ -5,16 +5,8 @@
       height: 35px;
       background-color: transparent;
       &:hover {
-         animation: addRotate 0.5s ease-in-out;
+         transform: rotate(180deg);
+         transition: transform 0.4s ease-in-out;
       }
-   }
-}
-
-@keyframes addRotate {
-   0% {
-      transform: rotate(0deg);
-   }
-   100% {
-      transform: rotate(180deg);
    }
 }

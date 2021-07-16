@@ -59,18 +59,15 @@ export const deleteExercise = (id, name, selectedDate) => (
 export const setExerciseData = (exercise, name, comment, selectedDate) => (
    async dispatch => {
       const database = firebase.database
+
       try {
          await database().ref(`date/${Date.parse(selectedDate)}/gymExercises/${exercise.id - 1}`).set({
             'comment': comment,
             'id': exercise.id,
             'name': name,
-
-            //!!!!!!!!!!!!!!!!!!!!!!!!! todo sets !!!!!!!!!!!!!!!!!!!!!!!!!!!
-            'sets': [{
-               'reps': 5,
-               'weight': 150
-            }]
+            'sets': exercise.sets.length ? exercise.sets : [{ weight: 0, reps: 0 }]
          })
+
          dispatch(getExercisesData(selectedDate))
       } catch (e) {
          alert('Произошла ошибка при обновлении данных')

@@ -84,3 +84,10 @@ select {
   font: inherit;
 }
 */
+input::-webkit-outer-spin-button, //стрелки  у input type='number'
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield; //стрелки  у input type='number'
+}
