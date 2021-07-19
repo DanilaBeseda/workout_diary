@@ -9,7 +9,7 @@
 
 .auth {
    width: 400px;
-   height: 550px;
+   height: 275px;
    background-color: #232323;
    background: linear-gradient(157deg, #373ca9 0%, #38b9b3 100%);
    position: absolute;
@@ -18,4 +18,50 @@
    transform: translate(-50%, -50%);
    border-radius: 10px;
    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.7);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+   & p {
+      color: #fff;
+      margin-bottom: 20px;
+      cursor: default;
+   }
+
+   & input {
+      display: block;
+      width: 80%;
+      height: 30px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+      background-color: #e2e2e2;
+      padding: 0 5px;
+      font-size: 16px;
+   }
+   & button {
+      display: block;
+   }
+   & .login {
+      margin-bottom: 10px;
+      width: 50%;
+      height: 30px;
+      border-radius: 10px;
+      background-color: #842020;
+      color: #fff;
+      font-size: 13px;
+      text-transform: uppercase;
+      &:hover {
+         background-color: #257d2e;
+      }
+   }
+   & span {
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      &:hover {
+         color: #91dbfe;
+      }
+   }
 }
