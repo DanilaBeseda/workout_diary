@@ -4,11 +4,15 @@ import { addExercise } from '../../../store/actions/gymExercises'
 
 import classes from './AddExercise.module.scss'
 
-export const AddExercise = () => {
+export const AddExercise = ({ userUID }) => {
    const dispatch = useDispatch()
 
    function buttonHandler() {
-      dispatch(addExercise())
+      if (userUID) {
+         dispatch(addExercise())
+      } else {
+         alert('Войдите в аккаунт')
+      }
    }
 
    return (

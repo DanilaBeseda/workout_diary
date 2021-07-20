@@ -10,17 +10,22 @@ export const MuscleGroups = () => {
    const [toggle, setToggle] = useState(false)
    const { selectedDate } = useSelector(({ calendar }) => calendar)
    const { groups } = useSelector(({ musсleGroups }) => musсleGroups)
+   const { userUID } = useSelector(({ auth }) => auth)
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getGroupsData(selectedDate))
+      dispatch(getGroupsData(selectedDate, userUID))
       setToggle(false)
-   }, [selectedDate, dispatch])
+   }, [selectedDate, dispatch, userUID])
 
    function toggleHandler() {
       if (!toggle) { setToggle(true) } else {
-         dispatch(setGroupsData(groups, selectedDate))
-         setToggle(false)
+         if (userUID) {
+            dispatch(setGroupsData(groups, selectedDate, userUID))
+            setToggle(false)
+         } else {
+            alert('Войдите в аккаунт')
+         }
       }
    }
 

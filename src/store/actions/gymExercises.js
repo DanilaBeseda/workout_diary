@@ -18,11 +18,11 @@ export const addExercise = () => ({
    type: ADD_EXERCISE
 })
 
-export const getExercisesData = (selectedDate) => (
+export const getExercisesData = (selectedDate, userUID) => (
    dispatch => {
       const database = firebase.database
 
-      database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("gymExercises").get().then(res => {
+      database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("gymExercises").get().then(res => {
          if (res.exists()) {
             dispatch(bindExercisesDataToState(res.val()))
          } else {
@@ -40,14 +40,14 @@ export const deleteExerciseFromState = (id) => ({
    payload: id
 })
 
-export const deleteExercise = (id, name, selectedDate) => (
+export const deleteExercise = (id, name, selectedDate, userUID) => (
    async dispatch => {
       const database = firebase.database
 
       if (name) {
          try {
-            await database().ref(`date/${Date.parse(selectedDate)}/gymExercises/${id - 1}`).set(null)
-            dispatch(getExercisesData(selectedDate))
+            await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${id - 1}`).set(null)
+            dispatch(getExercisesData(selectedDate, userUID))
          } catch (e) {
             alert('Произошла ошибка при обновлении данных')
             console.log(e)
@@ -58,19 +58,19 @@ export const deleteExercise = (id, name, selectedDate) => (
    }
 )
 
-export const setExerciseData = (exercise, name, comment, selectedDate) => (
+export const setExerciseData = (exercise, name, comment, selectedDate, userUID) => (
    async dispatch => {
       const database = firebase.database
 
       try {
-         await database().ref(`date/${Date.parse(selectedDate)}/gymExercises/${exercise.id - 1}`).set({
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exercise.id - 1}`).set({
             comment: comment,
             id: exercise.id,
             name: name,
             sets: exercise.sets.length ? exercise.sets : [{ weight: 0, reps: 0, id: 0 }]
          })
 
-         dispatch(getExercisesData(selectedDate))
+         dispatch(getExercisesData(selectedDate, userUID))
       } catch (e) {
          alert('Произошла ошибка при обновлении данных')
          console.error(e)

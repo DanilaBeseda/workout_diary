@@ -8,6 +8,7 @@
 }
 
 .auth {
+   position: relative;
    width: 400px;
    height: 275px;
    background-color: #232323;
@@ -40,10 +41,8 @@
       padding: 0 5px;
       font-size: 16px;
    }
-   & button {
-      display: block;
-   }
    & .login {
+      display: block;
       margin-bottom: 10px;
       width: 50%;
       height: 30px;
@@ -62,6 +61,16 @@
       cursor: pointer;
       &:hover {
          color: #91dbfe;
+      }
+   }
+   & .cancel {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      background-color: transparent;
+      opacity: 0.3;
+      &:hover {
+         opacity: 1;
       }
    }
 }

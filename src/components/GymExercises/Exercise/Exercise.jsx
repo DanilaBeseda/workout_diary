@@ -6,7 +6,7 @@ import { deleteExercise, setExerciseData, deleteSet } from '../../../store/actio
 
 import classes from './Exercise.module.scss'
 
-export const Exercise = ({ exercise, selectedDate }) => {
+export const Exercise = ({ exercise, selectedDate, userUID }) => {
    const [isEdit, setIsEdit] = useState(exercise.isEdit)
    const [name, setName] = useState(exercise.name)
    const [comment, setComment] = useState(exercise.comment)
@@ -22,7 +22,7 @@ export const Exercise = ({ exercise, selectedDate }) => {
          setComment(exercise.comment)
          setIsEdit(false)
       } else {
-         dispatch(deleteExercise(exercise.id, exercise.name, selectedDate))
+         dispatch(deleteExercise(exercise.id, exercise.name, selectedDate, userUID))
       }
    }
 
@@ -31,13 +31,13 @@ export const Exercise = ({ exercise, selectedDate }) => {
          alert('Введите название упражнения!')
          return
       }
-      dispatch(setExerciseData(exercise, name, comment, selectedDate))
+      dispatch(setExerciseData(exercise, name, comment, selectedDate, userUID))
       setIsEdit(false)
    }
 
    function deleteExerciseHandler() {
       if (window.confirm('Вы жействительно хотите удалить упражнение?')) {
-         dispatch(deleteExercise(exercise.id, exercise.name, selectedDate))
+         dispatch(deleteExercise(exercise.id, exercise.name, selectedDate, userUID))
       }
    }
 

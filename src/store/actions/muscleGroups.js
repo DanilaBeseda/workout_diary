@@ -16,35 +16,46 @@ export const changeChacked = (group) => ({
    payload: group
 })
 
-export const getGroupsData = (selectedDate) => (
+export const getGroupsData = (selectedDate, userUID) => (
    dispatch => {
       const database = firebase.database
 
-      database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("muscleGroups").get().then((res) => {
-         if (res.exists()) {
+      function setDefaultDatabase() {
+         database().ref().child("muscleGroupsDefault").get().then(res => {
             dispatch(bindGroupsDataToState(res.val()))
-         } else {
-            database().ref().child("muscleGroupsDefault").get().then(res => {
+         }).catch(e => {
+            alert('Не удалось получить дефолтные данные')
+            console.error(e)
+         })
+      }
+
+      if (userUID) {
+         database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("muscleGroups").get().then((res) => {
+            if (res.exists()) {
                dispatch(bindGroupsDataToState(res.val()))
-            })
-         }
-      }).catch(e => {
-         alert('Произошла ошибка при получении данных')
-         console.error(e)
-      })
+            } else {
+               setDefaultDatabase()
+            }
+         }).catch(e => {
+            alert('Произошла ошибка при получении данных')
+            console.error(e)
+         })
+      } else {
+         setDefaultDatabase()
+      }
    }
 )
 
-export const setGroupsData = (data, selectedDate) => (
+export const setGroupsData = (data, selectedDate, userUID) => (
    async () => {
       const database = firebase.database
-      const ref = `date/${Date.parse(selectedDate)}/muscleGroups`
+      const ref = `date/${userUID}/${Date.parse(selectedDate)}/muscleGroups`
 
       try {
          if (data.find(item => item.checked === true)) {
             await database().ref(ref).set(data)
          } else {
-            const res = await database().ref().child("date").child(`${Date.parse(selectedDate)}`).child("gymExercises").get()
+            const res = await database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("gymExercises").get()
             if (!res.exists()) {
                await database().ref(ref).set(null)
             }
