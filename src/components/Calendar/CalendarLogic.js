@@ -1,3 +1,6 @@
+export const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+export const weekDayNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+
 export function getMonthData(year, month) {
    const monthData = []
    const date = new Date(year, month)

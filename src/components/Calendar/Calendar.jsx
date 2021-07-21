@@ -1,28 +1,59 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { CSSTransition } from 'react-transition-group'
 
 import { prevMonth, nextMonth, prevYear, nextYear, selectYearAndMonth, selectActiveDate } from '../../store/actions/calendar'
-import { getMonthData, areEqual } from './CalendarLogic'
+import { getMonthData, areEqual, monthNames, weekDayNames } from './CalendarLogic'
 
 import classes from './Calendar.module.scss'
 
 export const Calendar = () => {
-   const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-   const weekDayNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
-
    const dispatch = useDispatch()
    const { date, selectedDate } = useSelector(({ calendar }) => calendar)
    const mountData = getMonthData(date.getFullYear(), date.getMonth())
-   const monthRef = useRef(null)
+
+   const [toggle, setToggle] = useState(false)
+   const [btnSide, setBtnSide] = useState('')
+
+   function selectHandler(e) {
+      dispatch(selectYearAndMonth(new Date(date.getFullYear(), e.target.value)))
+   }
+
+   function leftBtnMonthHandler() {
+      dispatch(prevMonth(date))
+      setBtnSide('left')
+      setToggle(true)
+   }
+
+   function rightBtnMonthHandler() {
+      dispatch(nextMonth(date))
+      setBtnSide('right')
+      setToggle(true)
+   }
+
+   function leftBtnYearHandler() {
+      dispatch(prevYear(date))
+      setBtnSide('left')
+      setToggle(true)
+   }
+
+   function RightBtnYearHandler() {
+      dispatch(nextYear(date))
+      setBtnSide('right')
+      setToggle(true)
+   }
+
+   function activeDateHandler(date) {
+      dispatch(selectActiveDate(date))
+   }
 
    return (
       <div className={classes.calendar}>
          <div className={classes.selects}>
-            <button className={classes.btnMonth} onClick={() => dispatch(prevMonth(date))}>{'<'}</button>
+            <button className={classes.btnMonth} onClick={leftBtnMonthHandler}>{'<'}</button>
 
             <select
-               ref={monthRef}
-               onChange={() => dispatch(selectYearAndMonth(new Date(date.getFullYear(), monthRef.current.value)))}
+               onChange={selectHandler}
                value={date.getMonth()}
             >
                {monthNames.map((item, index) => (
@@ -31,12 +62,12 @@ export const Calendar = () => {
             </select>
 
             <div className={classes.year}>
-               <button className={classes.btnYear} onClick={() => dispatch(prevYear(date))}>{'<'}</button>
+               <button className={classes.btnYear} onClick={leftBtnYearHandler}>{'<'}</button>
                <p>{date.getFullYear()}</p>
-               <button className={classes.btnYear} onClick={() => dispatch(nextYear(date))}>{'>'}</button>
+               <button className={classes.btnYear} onClick={RightBtnYearHandler}>{'>'}</button>
             </div>
 
-            <button className={classes.btnMonth} onClick={() => dispatch(nextMonth(date))}>{'>'}</button>
+            <button className={classes.btnMonth} onClick={rightBtnMonthHandler}>{'>'}</button>
          </div>
 
          <table>
@@ -48,23 +79,31 @@ export const Calendar = () => {
                </tr>
             </thead>
 
-            <tbody>
-               {mountData.map((week, index) => (
-                  <tr key={index}>
+            <CSSTransition
+               in={toggle}
+               timeout={400}
+               classNames={btnSide === 'right'
+                  ? { enter: classes.rightEnter, enterActive: classes.Entering }
+                  : { enter: classes.leftEnter, enterActive: classes.Entering }}
+               onEntered={() => setToggle(false)}
+            >
+               <tbody>
+                  {mountData.map((week, index) => (
+                     <tr key={index} className={classes.line}>
 
-                     {week.map((date, index) => (
-                        date
-                           ? <td
-                              key={index}
-                              className={[classes.day, areEqual(date, selectedDate) && classes.today].join(' ')}
-                              onClick={() => dispatch(selectActiveDate(date))}
-                           >{date.getDate()}</td>
-                           : <td key={index}></td>
-                     ))}
-
-                  </tr>
-               ))}
-            </tbody>
+                        {week.map((date, index) => (
+                           date
+                              ? <td
+                                 key={index}
+                                 className={[classes.day, areEqual(date, selectedDate) && classes.today, classes.animation].join(' ')}
+                                 onClick={() => activeDateHandler(date)}
+                              >{date.getDate()}</td>
+                              : <td key={index}></td>
+                        ))}
+                     </tr>
+                  ))}
+               </tbody>
+            </CSSTransition>
          </table>
       </div>
    )
