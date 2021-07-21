@@ -22,7 +22,7 @@ export const getExercisesData = (selectedDate, userUID) => (
    dispatch => {
       const database = firebase.database
 
-      database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("gymExercises").get().then(res => {
+      database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).get().then(res => {
          if (res.exists()) {
             dispatch(bindExercisesDataToState(res.val()))
          } else {

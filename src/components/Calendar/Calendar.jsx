@@ -1,19 +1,24 @@
-import { useRef, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 
-import { prevMonth, nextMonth, prevYear, nextYear, selectYearAndMonth, selectActiveDate } from '../../store/actions/calendar'
+import { prevMonth, nextMonth, prevYear, nextYear, selectYearAndMonth, selectActiveDate, getAllUserData } from '../../store/actions/calendar'
 import { getMonthData, areEqual, monthNames, weekDayNames } from './CalendarLogic'
 
 import classes from './Calendar.module.scss'
 
 export const Calendar = () => {
    const dispatch = useDispatch()
-   const { date, selectedDate } = useSelector(({ calendar }) => calendar)
+   const { date, selectedDate, filledDates } = useSelector(({ calendar }) => calendar)
+   const { userUID } = useSelector(({ auth }) => auth)
    const mountData = getMonthData(date.getFullYear(), date.getMonth())
 
    const [toggle, setToggle] = useState(false)
    const [btnSide, setBtnSide] = useState('')
+
+   useEffect(() => {
+      userUID && dispatch(getAllUserData(userUID))
+   }, [userUID, dispatch])
 
    function selectHandler(e) {
       dispatch(selectYearAndMonth(new Date(date.getFullYear(), e.target.value)))
@@ -95,9 +100,15 @@ export const Calendar = () => {
                            date
                               ? <td
                                  key={index}
-                                 className={[classes.day, areEqual(date, selectedDate) && classes.today, classes.animation].join(' ')}
+                                 className={[
+                                    classes.day,
+                                    areEqual(date, selectedDate) && classes.today,
+                                    classes.animation
+                                 ].join(' ')}
                                  onClick={() => activeDateHandler(date)}
-                              >{date.getDate()}</td>
+                              >
+                                 {filledDates.includes(Date.parse(date)) ? <span className={classes.fill}>{date.getDate()}</span> : date.getDate()}
+                              </td>
                               : <td key={index}></td>
                         ))}
                      </tr>

@@ -30,7 +30,7 @@ export const getGroupsData = (selectedDate, userUID) => (
       }
 
       if (userUID) {
-         database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("muscleGroups").get().then((res) => {
+         database().ref(`date/${userUID}/${Date.parse(selectedDate)}/muscleGroups`).get().then((res) => {
             if (res.exists()) {
                dispatch(bindGroupsDataToState(res.val()))
             } else {
@@ -49,15 +49,15 @@ export const getGroupsData = (selectedDate, userUID) => (
 export const setGroupsData = (data, selectedDate, userUID) => (
    async () => {
       const database = firebase.database
-      const ref = `date/${userUID}/${Date.parse(selectedDate)}/muscleGroups`
+      const ref = `date/${userUID}/${Date.parse(selectedDate)}/`
 
       try {
          if (data.find(item => item.checked === true)) {
-            await database().ref(ref).set(data)
+            await database().ref(ref + 'muscleGroups').set(data)
          } else {
-            const res = await database().ref().child("date").child(userUID).child(`${Date.parse(selectedDate)}`).child("gymExercises").get()
+            const res = await database().ref(ref + 'gymExercises').get()
             if (!res.exists()) {
-               await database().ref(ref).set(null)
+               await database().ref(ref + 'muscleGroups').set(null)
             }
          }
       } catch (e) {
