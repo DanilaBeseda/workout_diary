@@ -20,7 +20,7 @@ export const GymExercises = () => {
    }, [selectedDate, dispatch, userUID])
 
    return (
-      <div className={classes.gymExercises} style={{ height: '600px' }}>
+      <div className={classes.gymExercises}>
          <span>{`${selectedDate.getDate()}-${selectedDate.getMonth()}-${selectedDate.getFullYear()}`}</span>
          <ul className={classes.exercises}>
             {exercises.map((exercise, index) => (

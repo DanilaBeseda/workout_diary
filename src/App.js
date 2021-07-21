@@ -17,13 +17,13 @@ function App() {
       <div className={classes.app}>
         <Header />
         <div className={classes.center}>
-          <div className={classes.main}>
+          <main className={classes.main}>
             <div className={classes.row}>
               <Calendar />
               <MuscleGroups />
             </div>
             <GymExercises />
-          </div>
+          </main>
         </div>
       </div>
     </div>

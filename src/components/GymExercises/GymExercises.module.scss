@@ -1,8 +1,10 @@
 .gymExercises {
    background-color: #232323;
-   margin: 20px 50px 50px;
+   margin: 20px 50px 0 50px;
    border-radius: 10px;
    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.7);
+   height: calc(100vh - 395px);
+   min-height: 125px;
    & span {
       display: inline-block;
       color: #fff;
