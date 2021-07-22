@@ -7,8 +7,8 @@ import classes from './AddSet.module.scss'
 
 export const AddSet = ({ exerciseKey }) => {
    const [isVisible, setIsVisible] = useState(false)
-   const [weightInputValue, setWeightInputValue] = useState('')
-   const [repsInputValue, setRepsInputValue] = useState('')
+   const [weightInputValue, setWeightInputValue] = useState(0)
+   const [repsInputValue, setRepsInputValue] = useState(0)
    const btnRef = useRef(null)
    const dispatch = useDispatch()
 

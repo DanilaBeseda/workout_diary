@@ -15,7 +15,7 @@ export const gymExercises = (state = initialState, action) => {
 
          if (data) {
             Object.values(data).map(exercise => {
-               if (exercise.sets[0].reps === 0) {
+               if (exercise.sets[0].id === 0) {
                   exercise.sets = []
                }
                exercise.isEdit = action.payload.isEdit
