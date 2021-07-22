@@ -57,6 +57,7 @@
             text-align: center;
             cursor: pointer;
             border: 1px solid transparent;
+            z-index: 1;
             &:hover {
                border: 1px solid #41b0e0;
             }
@@ -69,18 +70,19 @@
                   transition: all 0.6s ease;
                }
             }
-            & .fill {
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               position: absolute;
-               top: 50%;
-               left: 50%;
-               transform: translate(-50%, -50%);
-               border-radius: 50%;
-               height: 25px;
-               width: 25px;
-               background: linear-gradient(45deg, #24d10f 0%, #11d1c8 100%);
+            &.fill {
+               &::before {
+                  content: "";
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  border-radius: 50%;
+                  width: 25px;
+                  height: 25px;
+                  background: linear-gradient(45deg, #29b818 0%, #1c64e7 100%);
+                  z-index: -1;
+               }
             }
          }
       }

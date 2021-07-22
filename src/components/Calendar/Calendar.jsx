@@ -103,11 +103,13 @@ export const Calendar = () => {
                                  className={[
                                     classes.day,
                                     areEqual(date, selectedDate) && classes.today,
-                                    classes.animation
+                                    classes.animation,
+                                    filledDates.includes(Date.parse(date)) && classes.fill
                                  ].join(' ')}
                                  onClick={() => activeDateHandler(date)}
                               >
-                                 {filledDates.includes(Date.parse(date)) ? <span className={classes.fill}>{date.getDate()}</span> : date.getDate()}
+                                 {date.getDate()}
+                                 {/* {filledDates.includes(Date.parse(date)) ? <span className={classes.fill}>{date.getDate()}</span> : date.getDate()} */}
                               </td>
                               : <td key={index}></td>
                         ))}

@@ -1,7 +1,5 @@
 import {
    BIND_EXERCISES_DATA,
-   ADD_EXERCISE,
-   DELETE_EXERCISE,
    ADD_SET,
    DELETE_SET
 } from '../constants/actionTypes'
@@ -9,24 +7,39 @@ import {
 import firebase from 'firebase/app'
 import 'firebase/database'
 
-export const bindExercisesDataToState = (data) => ({
+export const bindExercisesDataToState = (data, isEdit = false) => ({
    type: BIND_EXERCISES_DATA,
-   payload: data
+   payload: { data, isEdit }
 })
 
-export const addExercise = () => ({
-   type: ADD_EXERCISE
-})
+export const addExercise = (selectedDate, userUID) => (
+   async dispatch => {
+      const database = firebase.database
 
-export const getExercisesData = (selectedDate, userUID) => (
+      try {
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).push().set({
+            comment: '',
+            name: 'Упражнение',
+            sets: [{ weight: 0, reps: 0, id: 0 }]
+         })
+
+         dispatch(getExercisesData(selectedDate, userUID, true))
+      } catch (e) {
+         alert('Произошла ошибка при обновлении данных')
+         console.error(e)
+      }
+   }
+)
+
+export const getExercisesData = (selectedDate, userUID, isEdit = false) => (
    dispatch => {
       const database = firebase.database
 
       database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).get().then(res => {
          if (res.exists()) {
-            dispatch(bindExercisesDataToState(res.val()))
+            dispatch(bindExercisesDataToState(res.val(), isEdit))
          } else {
-            dispatch(bindExercisesDataToState([]))
+            dispatch(bindExercisesDataToState({}))
          }
       }).catch(e => {
          alert('Произошла ошибка при получении данных')
@@ -35,39 +48,29 @@ export const getExercisesData = (selectedDate, userUID) => (
    }
 )
 
-export const deleteExerciseFromState = (id) => ({
-   type: DELETE_EXERCISE,
-   payload: id
-})
-
-export const deleteExercise = (id, name, selectedDate, userUID) => (
-   async dispatch => {
-      const database = firebase.database
-
-      if (name) {
-         try {
-            await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${id - 1}`).set(null)
-            dispatch(getExercisesData(selectedDate, userUID))
-         } catch (e) {
-            alert('Произошла ошибка при обновлении данных')
-            console.log(e)
-         }
-      } else {
-         dispatch(deleteExerciseFromState(id))
-      }
-   }
-)
-
-export const setExerciseData = (exercise, name, comment, selectedDate, userUID) => (
+export const deleteExercise = (exerciseKey, selectedDate, userUID) => (
    async dispatch => {
       const database = firebase.database
 
       try {
-         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exercise.id - 1}`).set({
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exerciseKey}`).set(null)
+         dispatch(getExercisesData(selectedDate, userUID))
+      } catch (e) {
+         alert('Произошла ошибка при обновлении данных')
+         console.error(e)
+      }
+   }
+)
+
+export const setExerciseData = (sets, name, comment, selectedDate, userUID, exerciseKey) => (
+   async dispatch => {
+      const database = firebase.database
+
+      try {
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exerciseKey}`).set({
             comment: comment,
-            id: exercise.id,
             name: name,
-            sets: exercise.sets.length ? exercise.sets : [{ weight: 0, reps: 0, id: 0 }]
+            sets: sets.length ? sets : [{ weight: 0, reps: 0, id: 0 }]
          })
 
          dispatch(getExercisesData(selectedDate, userUID))

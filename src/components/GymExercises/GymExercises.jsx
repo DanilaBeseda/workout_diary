@@ -23,11 +23,16 @@ export const GymExercises = () => {
       <div className={classes.gymExercises}>
          <span>{`${selectedDate.getDate()}-${selectedDate.getMonth()}-${selectedDate.getFullYear()}`}</span>
          <ul className={classes.exercises}>
-            {exercises.map((exercise, index) => (
-               <Exercise key={index} exercise={exercise} selectedDate={selectedDate} userUID={userUID} />
+            {Object.entries(exercises).map(exercise => (
+               <Exercise
+                  key={exercise[0]}
+                  exercise={exercise[1]}
+                  exerciseKey={exercise[0]}
+                  selectedDate={selectedDate}
+                  userUID={userUID} />
             ))}
          </ul>
-         <AddExercise userUID={userUID} />
+         <AddExercise selectedDate={selectedDate} userUID={userUID} />
       </div>
    )
 }

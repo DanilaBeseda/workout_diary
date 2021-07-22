@@ -1,56 +1,29 @@
 import {
    BIND_EXERCISES_DATA,
-   ADD_EXERCISE,
-   DELETE_EXERCISE,
    ADD_SET,
    DELETE_SET
 } from '../constants/actionTypes'
 
 const initialState = {
-   exercises: []
+   exercises: {}
 }
 
 export const gymExercises = (state = initialState, action) => {
    switch (action.type) {
       case BIND_EXERCISES_DATA: {
-         const data = action.payload
+         const data = action.payload.data
 
          if (data) {
-            data.map(exercise => {
+            Object.values(data).map(exercise => {
                if (exercise.sets[0].reps === 0) {
                   exercise.sets = []
                }
-               exercise.isEdit = false
+               exercise.isEdit = action.payload.isEdit
                return exercise
             })
          }
          return {
             ...state, exercises: data
-         }
-      }
-      case ADD_EXERCISE: {
-         const cloneExercises = state.exercises
-         const id = cloneExercises.length + 1
-
-         cloneExercises.push({
-            comment: '',
-            name: '',
-            id,
-            sets: [],
-            isEdit: true
-         })
-
-         return {
-            ...state, exercises: cloneExercises
-         }
-      }
-      case DELETE_EXERCISE: {
-         const cloneExercises = state.exercises.filter(exercise => (
-            exercise.id !== action.payload
-         ))
-
-         return {
-            ...state, exercises: cloneExercises
          }
       }
       case ADD_SET: {
