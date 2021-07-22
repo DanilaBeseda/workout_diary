@@ -53,6 +53,7 @@
       & tbody {
          position: relative;
          & .day {
+            user-select: none;
             position: relative;
             text-align: center;
             cursor: pointer;
@@ -74,13 +75,13 @@
                &::before {
                   content: "";
                   position: absolute;
-                  top: 50%;
+                  top: 92%;
                   left: 50%;
-                  transform: translate(-50%, -50%);
+                  transform: translate(-50%, -92%);
                   border-radius: 50%;
-                  width: 25px;
-                  height: 25px;
-                  background: linear-gradient(45deg, #29b818 0%, #1c64e7 100%);
+                  width: 6px;
+                  height: 6px;
+                  background-color: #2def16;
                   z-index: -1;
                }
             }
