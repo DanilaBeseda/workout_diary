@@ -86,7 +86,6 @@ export const auth = (state = initialState, action) => {
             ...state, isVisiblePopup: action.payload
          }
       case SET_USER:
-         console.log(action.payload.userUID)
          return {
             ...state, userName: action.payload.userName, userUID: action.payload.userUID
          }

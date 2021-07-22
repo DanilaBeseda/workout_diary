@@ -38,7 +38,7 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
    }
 
    function deleteSetHandler(setId) {
-      dispatch(deleteSet(setId, exercise.id))
+      dispatch(deleteSet(setId, exerciseKey))
    }
 
    return (
@@ -59,7 +59,7 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
                      </button>}
                   </li>
                ))}
-               {isEdit && <AddSet exercise={exercise} />}
+               {isEdit && <AddSet exerciseKey={exerciseKey} />}
             </ul>
 
             {isEdit

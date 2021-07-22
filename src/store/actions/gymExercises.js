@@ -81,12 +81,12 @@ export const setExerciseData = (sets, name, comment, selectedDate, userUID, exer
    }
 )
 
-export const addSet = (set, id) => ({
+export const addSet = (set, exerciseKey) => ({
    type: ADD_SET,
-   payload: { set, id }
+   payload: { set, exerciseKey }
 })
 
-export const deleteSet = (setId, exerciseId) => ({
+export const deleteSet = (setId, exerciseKey) => ({
    type: DELETE_SET,
-   payload: { setId, exerciseId }
+   payload: { setId, exerciseKey }
 })
