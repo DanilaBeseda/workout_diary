@@ -85,5 +85,16 @@
             transition: transform 0.3s ease-out;
          }
       }
+      & .arrows {
+         writing-mode: vertical-rl;
+         & .upArrow {
+            transform: rotate(90deg);
+            margin-right: 6px;
+            margin-bottom: 20px;
+         }
+         & .downArrow {
+            transform: rotate(270deg);
+         }
+      }
    }
 }

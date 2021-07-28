@@ -95,3 +95,31 @@ export const deleteSet = (setId, exerciseId) => ({
    type: DELETE_SET,
    payload: { setId, exerciseId }
 })
+
+export const moveExercise = (exercises, arrayIndex, userUID, selectedDate, isMoveUp = false) => (
+   async dispatch => {
+      let isChanged = false
+
+      if (isMoveUp && arrayIndex !== 0) {
+         [exercises[arrayIndex], exercises[arrayIndex - 1]] = [exercises[arrayIndex - 1], exercises[arrayIndex]]
+         isChanged = true
+      } else if (!isMoveUp && arrayIndex + 1 !== exercises.length) {
+         [exercises[arrayIndex], exercises[arrayIndex + 1]] = [exercises[arrayIndex + 1], exercises[arrayIndex]]
+         isChanged = true
+      }
+
+      if (isChanged) {
+         const database = firebase.database
+
+         console.log(exercises)
+
+         try {
+            await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).set(exercises)
+            dispatch(getExercisesData(selectedDate, userUID))
+         } catch (e) {
+            alert('Произошла ошибка при обновлении данных')
+            console.error(e)
+         }
+      }
+   }
+)
