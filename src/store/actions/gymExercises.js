@@ -111,8 +111,6 @@ export const moveExercise = (exercises, arrayIndex, userUID, selectedDate, isMov
       if (isChanged) {
          const database = firebase.database
 
-         console.log(exercises)
-
          try {
             await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).set(exercises)
             dispatch(getExercisesData(selectedDate, userUID))
