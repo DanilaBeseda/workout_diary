@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { AddSet } from './AddSet/AddSet'
-import { deleteExercise, setExerciseData, deleteSet } from '../../../store/actions/gymExercises'
+import { deleteExercise, setExerciseData, deleteSet, getExercisesData } from '../../../store/actions/gymExercises'
 
 import classes from './Exercise.module.scss'
 
-export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
-   const [isEdit, setIsEdit] = useState(exercise.isEdit)
+export const Exercise = ({ exercise, exercises, arrayIndex, selectedDate, userUID }) => {
+   const [isEdit, setIsEdit] = useState(false)
    const [name, setName] = useState(exercise.name)
    const [comment, setComment] = useState(exercise.comment)
    const dispatch = useDispatch()
+
+   useEffect(() => {
+      setName(exercise.name)
+      setComment(exercise.comment)
+   }, [exercises, exercise.name, exercise.comment])
 
    function editHandler() {
       setIsEdit(true)
@@ -21,18 +26,23 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
          alert('Введите название упражнения!')
          return
       }
-      dispatch(setExerciseData(exercise.sets, name, comment, selectedDate, userUID, exerciseKey))
+      dispatch(setExerciseData(exercise.id, exercise.sets, name, comment, selectedDate, userUID, arrayIndex))
       setIsEdit(false)
+   }
+
+   function cancelHandler() {
+      setIsEdit(false)
+      dispatch(getExercisesData(selectedDate, userUID))
    }
 
    function deleteExerciseHandler() {
       if (window.confirm('Вы жействительно хотите удалить упражнение?')) {
-         dispatch(deleteExercise(exerciseKey, selectedDate, userUID))
+         dispatch(deleteExercise(selectedDate, userUID, exercises, arrayIndex))
       }
    }
 
    function deleteSetHandler(setId) {
-      dispatch(deleteSet(setId, exerciseKey))
+      dispatch(deleteSet(setId, exercise.id))
    }
 
    return (
@@ -45,7 +55,7 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
 
             <ul className={classes.exerciseList}>
                {exercise.sets.map((set, index) => (
-                  <li key={index} className={classes.exerciseItem}>
+                  set.id !== 0 && <li key={index} className={classes.exerciseItem}>
                      {`${set.weight}кг x ${set.reps}`}
 
                      {<button className={classes.deleteBtn} style={isEdit ? { visibility: 'visible' } : { visibility: 'hidden' }} onClick={() => deleteSetHandler(set.id)}>
@@ -53,7 +63,7 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
                      </button>}
                   </li>
                ))}
-               {isEdit && <AddSet exerciseKey={exerciseKey} />}
+               {isEdit && <AddSet exerciseId={exercise.id} />}
             </ul>
 
             {isEdit
@@ -66,6 +76,12 @@ export const Exercise = ({ exercise, exerciseKey, selectedDate, userUID }) => {
                <button className={classes.confirm} onClick={confirmHandler}>
                   <svg width="30" height="30" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+               </button>
+
+               <button className={classes.cancel} onClick={cancelHandler}>
+                  <svg height="20" viewBox="0 0 329.26933 329" width="20" xmlns="http://www.w3.org/2000/svg">
+                     <path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0" />
                   </svg>
                </button>
             </div>

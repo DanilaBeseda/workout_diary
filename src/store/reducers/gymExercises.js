@@ -5,30 +5,26 @@ import {
 } from '../constants/actionTypes'
 
 const initialState = {
-   exercises: {}
+   exercises: []
 }
 
 export const gymExercises = (state = initialState, action) => {
    switch (action.type) {
       case BIND_EXERCISES_DATA: {
-         const data = action.payload.data
-
-         if (data) {
-            Object.values(data).map(exercise => {
-               if (exercise.sets[0].id === 0) {
-                  exercise.sets = []
-               }
-               exercise.isEdit = action.payload.isEdit
-               return exercise
-            })
-         }
          return {
-            ...state, exercises: data
+            ...state, exercises: action.payload
          }
       }
       case ADD_SET: {
          const cloneExercises = state.exercises
-         cloneExercises[action.payload.exerciseKey].sets.push(action.payload.set)
+
+         cloneExercises.map(exercise => {
+            if (exercise.id === action.payload.exerciseId) {
+               exercise.sets.push(action.payload.set)
+            }
+
+            return exercise
+         })
 
          return {
             ...state, exercises: cloneExercises
@@ -36,11 +32,17 @@ export const gymExercises = (state = initialState, action) => {
       }
       case DELETE_SET: {
          const cloneExercises = state.exercises
-         const sets = cloneExercises[action.payload.exerciseKey].sets.filter(set => (
-            set.id !== action.payload.setId
-         ))
 
-         cloneExercises[action.payload.exerciseKey].sets = sets
+         cloneExercises.map(exercise => {
+            if (exercise.id === action.payload.exerciseId) {
+               const sets = exercise.sets.filter(set => (
+                  set.id !== action.payload.setId
+               ))
+               exercise.sets = sets
+            }
+
+            return exercise
+         })
 
          return {
             ...state, exercises: cloneExercises

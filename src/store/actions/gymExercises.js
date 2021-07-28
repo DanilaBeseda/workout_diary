@@ -7,53 +7,24 @@ import {
 import firebase from 'firebase/app'
 import 'firebase/database'
 
-export const bindExercisesDataToState = (data, isEdit = false) => ({
+export const bindExercisesDataToState = (data) => ({
    type: BIND_EXERCISES_DATA,
-   payload: { data, isEdit }
+   payload: data
 })
 
-export const addExercise = (selectedDate, userUID) => (
+export const addExercise = (selectedDate, userUID, exercises) => (
    async dispatch => {
       const database = firebase.database
 
-      try {
-         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).push().set({
-            comment: '',
-            name: 'Упражнение',
-            sets: [{ weight: 0, reps: 0, id: 0 }]
-         })
-
-         dispatch(getExercisesData(selectedDate, userUID, true))
-      } catch (e) {
-         alert('Произошла ошибка при обновлении данных')
-         console.error(e)
-      }
-   }
-)
-
-export const getExercisesData = (selectedDate, userUID, isEdit = false) => (
-   dispatch => {
-      const database = firebase.database
-
-      database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).get().then(res => {
-         if (res.exists()) {
-            dispatch(bindExercisesDataToState(res.val(), isEdit))
-         } else {
-            dispatch(bindExercisesDataToState({}))
-         }
-      }).catch(e => {
-         alert('Произошла ошибка при получении данных')
-         console.error(e)
+      exercises.push({
+         id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
+         comment: '',
+         name: 'Упражнение',
+         sets: [{ weight: 0, reps: 0, id: 0 }]
       })
-   }
-)
-
-export const deleteExercise = (exerciseKey, selectedDate, userUID) => (
-   async dispatch => {
-      const database = firebase.database
 
       try {
-         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exerciseKey}`).set(null)
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).set(exercises)
          dispatch(getExercisesData(selectedDate, userUID))
       } catch (e) {
          alert('Произошла ошибка при обновлении данных')
@@ -62,12 +33,46 @@ export const deleteExercise = (exerciseKey, selectedDate, userUID) => (
    }
 )
 
-export const setExerciseData = (sets, name, comment, selectedDate, userUID, exerciseKey) => (
+export const getExercisesData = (selectedDate, userUID) => (
+   dispatch => {
+      const database = firebase.database
+
+      database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).get().then(res => {
+         if (res.exists()) {
+            dispatch(bindExercisesDataToState(res.val()))
+         } else {
+            dispatch(bindExercisesDataToState([]))
+         }
+      }).catch(e => {
+         alert('Произошла ошибка при получении данных')
+         console.error(e)
+      })
+   }
+)
+
+export const deleteExercise = (selectedDate, userUID, exercises, arrayIndex) => (
+   async dispatch => {
+      const database = firebase.database
+
+      exercises.splice(arrayIndex, 1)
+
+      try {
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises`).set(exercises)
+         dispatch(getExercisesData(selectedDate, userUID))
+      } catch (e) {
+         alert('Произошла ошибка при обновлении данных')
+         console.error(e)
+      }
+   }
+)
+
+export const setExerciseData = (id, sets, name, comment, selectedDate, userUID, arrayIndex) => (
    async dispatch => {
       const database = firebase.database
 
       try {
-         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${exerciseKey}`).set({
+         await database().ref(`date/${userUID}/${Date.parse(selectedDate)}/gymExercises/${arrayIndex}`).set({
+            id: id,
             comment: comment,
             name: name,
             sets: sets.length ? sets : [{ weight: 0, reps: 0, id: 0 }]
@@ -81,12 +86,12 @@ export const setExerciseData = (sets, name, comment, selectedDate, userUID, exer
    }
 )
 
-export const addSet = (set, exerciseKey) => ({
+export const addSet = (set, exerciseId) => ({
    type: ADD_SET,
-   payload: { set, exerciseKey }
+   payload: { set, exerciseId }
 })
 
-export const deleteSet = (setId, exerciseKey) => ({
+export const deleteSet = (setId, exerciseId) => ({
    type: DELETE_SET,
-   payload: { setId, exerciseKey }
+   payload: { setId, exerciseId }
 })

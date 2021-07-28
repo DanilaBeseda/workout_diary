@@ -5,7 +5,7 @@ import { addSet } from '../../../../store/actions/gymExercises'
 
 import classes from './AddSet.module.scss'
 
-export const AddSet = ({ exerciseKey }) => {
+export const AddSet = ({ exerciseId }) => {
    const [isVisible, setIsVisible] = useState(false)
    const [weightInputValue, setWeightInputValue] = useState(0)
    const [repsInputValue, setRepsInputValue] = useState(0)
@@ -14,7 +14,11 @@ export const AddSet = ({ exerciseKey }) => {
 
    function confirmHandler() {
       setIsVisible(false)
-      dispatch(addSet({ weight: weightInputValue, reps: repsInputValue, id: `f${(~~(Math.random() * 1e8)).toString(16)}` }, exerciseKey))
+      dispatch(addSet({
+         weight: weightInputValue,
+         reps: repsInputValue,
+         id: `f${(~~(Math.random() * 1e8)).toString(16)}`
+      }, exerciseId))
    }
 
    function weightInputHandler(e) {
